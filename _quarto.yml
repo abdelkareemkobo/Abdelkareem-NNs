@@ -18,7 +18,7 @@ I am an experiential learner who dreams, designs and builds exceptional, high-qu
         href: https://twitter.com/Abdelakreemkobo
 format:
   html:
-    theme: quartz
+    theme: vapor
     css: styles.css
 
 editor: visual

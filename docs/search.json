@@ -11,7 +11,7 @@
     "href": "blog.html",
     "title": "Abdelkareem NNs",
     "section": "",
-    "text": "Order By\n       Default\n         \n          Title\n        \n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\n\n\n\n\n\n\nnews\n\n\ncode\n\n\nanalysis\n\n\n\n\n\n\n\n\n\n\n\nOct 8, 2022\n\n\n0 min\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ntesting\n\n\n\n\n\n\n\n\n\n\n\nOct 7, 2022\n\n\n0 min\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nnews\n\n\n\n\n\n\n\n\n\n\n\nOct 5, 2022\n\n\n0 min\n\n\n\n\n\n\nNo matching items"
+    "text": "Order By\n       Default\n         \n          Title\n        \n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\n\n\n\n\n\n\ndeep_learning\n\n\ncnn\n\n\ncomputer_vision\n\n\npytorch\n\n\n\n\n\n\n\n\n\n\n\nOct 8, 2022\n\n\n4 min\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nnews\n\n\ncode\n\n\nanalysis\n\n\n\n\n\n\n\n\n\n\n\nOct 8, 2022\n\n\n0 min\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "archive.html",
@@ -28,17 +28,10 @@
     "text": "1 + 1\n\n[1] 2"
   },
   {
-    "objectID": "posts/welcome/index.html",
-    "href": "posts/welcome/index.html",
-    "title": "Welcome To My Blog",
+    "objectID": "posts/buildCNN/index.html",
+    "href": "posts/buildCNN/index.html",
+    "title": "Post With Code",
     "section": "",
-    "text": "Since this post doesn’t specify an explicit image, the first image in the post will be used in the listing page of posts."
-  },
-  {
-    "objectID": "posts/my-new-post/index.html",
-    "href": "posts/my-new-post/index.html",
-    "title": "Trying to see hello world in web domain",
-    "section": "",
-    "text": "Since this post doesn’t specify an explicit image, the first image in the post will be used in the listing page of posts."
+    "text": "1 + 1\n\n[1] 2"
   }
 ]

@@ -19,5 +19,15 @@
   },
   "archive.qmd": {
     "archive.html": "308b2e3c"
+  },
+  "posts/cnn/2022-10-7-cnn.ipynb": {
+    "2022-10-7-cnn.docx": "2f2e71a6",
+    "2022-10-7-cnn.html": "5b1888a9"
+  },
+  "posts/buildCNN/index.qmd": {
+    "index.html": "5ee9ff42"
+  },
+  "posts/buildCNN/cnn.ipynb": {
+    "cnn.html": "8360ec78"
   }
 }

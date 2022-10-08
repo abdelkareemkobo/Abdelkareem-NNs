@@ -8,6 +8,8 @@ image: "image.jpg"
 
 This is a post with executable code.
 
-```{r}
-1 + 1
+```{python}
+print("hello world ")
 ```
+
+Hello world
