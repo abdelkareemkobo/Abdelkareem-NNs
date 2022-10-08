@@ -29,5 +29,20 @@
   },
   "posts/buildCNN/cnn.ipynb": {
     "cnn.html": "8360ec78"
+  },
+  "posts/what's-wrong/index.qmd": {
+    "index.html": "4524620d"
+  },
+  "posts/ok/index.qmd": {
+    "index.html": "a636f856"
+  },
+  "posts/ok/index.ipynb": {
+    "index.html": "e9c5df0b"
+  },
+  "posts/buildcnn/index.qmd": {
+    "index.html": "c1e23a68"
+  },
+  "posts/buildcnn/index.ipynb": {
+    "index.html": "084c8815"
   }
 }
