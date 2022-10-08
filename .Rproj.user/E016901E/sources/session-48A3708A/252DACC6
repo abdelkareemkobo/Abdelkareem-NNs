@@ -3,7 +3,7 @@
     "path": "~/blogging/Abdelkareem NNs/_quarto.yml",
     "project_path": "_quarto.yml",
     "type": "yaml",
-    "hash": "0",
+    "hash": "1130835226",
     "contents": "",
     "dirty": false,
     "created": 1665205496437.0,
@@ -11,14 +11,16 @@
     "relative_order": 2,
     "properties": {
         "source_window_id": "",
-        "Source": "Source"
+        "Source": "Source",
+        "cursorPosition": "8,10",
+        "scrollLine": "0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1665205494,
+    "lastKnownWriteTime": 1665206833,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1665205494,
+    "last_content_update": 1665206833234,
     "read_only": false,
     "read_only_alternatives": []
 }
