@@ -13,10 +13,3 @@ author: 'Abdelkareem Elkhatib'
 toc: true
 toc-depth: 3
 page-layout: article
-
-comments: 
-  utterances: 
-    repo:  abdelkareemkobo/comments
-format:
-  html:
-    include-after-body: ../footer.html

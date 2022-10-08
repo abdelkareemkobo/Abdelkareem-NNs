@@ -1,14 +1,14 @@
 {
-    "id": "EB45F03F",
-    "path": "~/blogging/Abdelkareem NNs/index.qmd",
-    "project_path": "index.qmd",
+    "id": "54ADE5F7",
+    "path": "~/blogging/Abdelkareem NNs/blog.qmd",
+    "project_path": "blog.qmd",
     "type": "quarto_markdown",
-    "hash": "892859679",
+    "hash": "0",
     "contents": "",
     "dirty": false,
-    "created": 1665205496126.0,
+    "created": 1665211445484.0,
     "source_on_save": false,
-    "relative_order": 1,
+    "relative_order": 2,
     "properties": {
         "rmdVisualMode": "true",
         "rmdVisualWrapConfigured": "true",
@@ -16,16 +16,16 @@
         "Source": "Source",
         "docOutlineVisible": "1",
         "rmdVisualCollapsedChunks": "",
-        "cursorPosition": "0,0",
+        "cursorPosition": "12,24",
         "scrollLine": "0",
-        "rmdVisualModeLocation": "2:0"
+        "rmdVisualModeLocation": "279:0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1665205569,
+    "lastKnownWriteTime": 1665208801,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1665205569847,
+    "last_content_update": 1665208801,
     "read_only": false,
     "read_only_alternatives": []
 }

@@ -5,16 +5,20 @@ project:
 
 website:
   title: "Abdelkareem NNs"
+  description: "Welcome to my garden! This is where I explore my ideas and share them publicly so others can read and provide feedback to help me improve my thinking.
+Hey 👋, I am Abdelkareem Elkhatib.
+I am an experiential learner who dreams, designs and builds exceptional, high-quality digital products and services. I also train machines to teach themselves."
   navbar:
     right:
-      - about.qmd
+      - text: Blog
+        href: blog.qmd 
       - icon: github
-        href: https://github.com/
+        href: https://github.com/abdelkareemkobo
       - icon: twitter
-        href: https://twitter.com
+        href: https://twitter.com/Abdelakreemkobo
 format:
   html:
-    theme: cosmo
+    theme: quartz
     css: styles.css
 
 editor: visual

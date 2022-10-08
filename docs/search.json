@@ -2,16 +2,23 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Abdelkareem NNs",
-    "section": "",
-    "text": "news\n\n\ncode\n\n\nanalysis\n\n\n\n\n\n\n\n\n\n\n\nOct 8, 2022\n\n\nHarlow Malloc\n\n\n\n\n\n\n  \n\n\n\n\n\n\n\n\n\n\ntesting\n\n\n\n\n\n\n\n\n\n\n\nOct 7, 2022\n\n\nAbdelkareem elkhatib\n\n\n\n\n\n\n  \n\n\n\n\n\n\n\n\n\n\nnews\n\n\n\n\n\n\n\n\n\n\n\nOct 5, 2022\n\n\nTristan O’Malley\n\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "About this blog"
+    "text": "I am an experiential learner who dreams, designs and builds exceptional, high-quality digital products and services. I also train machines to teach themselves."
+  },
+  {
+    "objectID": "blog.html",
+    "href": "blog.html",
+    "title": "Abdelkareem NNs",
+    "section": "",
+    "text": "Order By\n       Default\n         \n          Title\n        \n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\n\n\n\n\n\n\nnews\n\n\ncode\n\n\nanalysis\n\n\n\n\n\n\n\n\n\n\n\nOct 8, 2022\n\n\n0 min\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ntesting\n\n\n\n\n\n\n\n\n\n\n\nOct 7, 2022\n\n\n0 min\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nnews\n\n\n\n\n\n\n\n\n\n\n\nOct 5, 2022\n\n\n0 min\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "archive.html",
+    "href": "archive.html",
+    "title": "Abdelkareem NNs",
+    "section": "",
+    "text": "title: “Archive”\npage-layout: full\nlisting:\ncontents: posts/**/*.qmd\ntype: default\nfilelds: [date,title]\nsort: ‘date desc’\n---"
   },
   {
     "objectID": "posts/post-with-code/index.html",
