@@ -1,0 +1,31 @@
+{
+    "id": "424524FC",
+    "path": "~/blogging/Abdelkareem NNs/posts/my-new-post/index.qmd",
+    "project_path": "posts/my-new-post/index.qmd",
+    "type": "quarto_markdown",
+    "hash": "3327561958",
+    "contents": "",
+    "dirty": false,
+    "created": 1665206112269.0,
+    "source_on_save": false,
+    "relative_order": 3,
+    "properties": {
+        "rmdVisualMode": "true",
+        "rmdVisualWrapConfigured": "true",
+        "source_window_id": "",
+        "Source": "Source",
+        "docOutlineVisible": "1",
+        "rmdVisualCollapsedChunks": "",
+        "rmdVisualModeLocation": "185:0",
+        "cursorPosition": "4,20",
+        "scrollLine": "0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1665206206,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1665206206917,
+    "read_only": false,
+    "read_only_alternatives": []
+}
