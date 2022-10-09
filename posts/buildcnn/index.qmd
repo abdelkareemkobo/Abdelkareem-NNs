@@ -2,53 +2,35 @@
 title: "Post With Code"
 author: "Abdlkareem Elkahtib"
 date: "2022-10-08"
-categories: [news, code, analysis]
+categories: [cnn, deep_learning, computer_vision,pytorch]
 image: "image.jpg"
+format: html
+execute: 
+  enabled: false
+  code-fold: true
 ---
+
 ---
 jupyter: python3
 ---
 
-# let's build an CNN with pytorch 
-I will build an cnn and apply data augmentation  and batch normalization 
-## What's cnn?
-- CCNs are probably the most popular of all neural networ architecures. 
+# let's build an CNN with pytorch
 
-- This is mainly because, although they work in many domains, they are particularly good at dealing with images, and advances in technology have allowed the collection of large amounts of images to be possible in order to tackle a great variety of today's challenges.
+I will build an cnn and apply data augmentation and batch normalization
 
-- From image classification to object detection, CNNs are being used to diagnose cancer patients and detect fraud in systems, as well as to construct well thought-out self- driving vehicles that will revolutionize the future.
-## Building Blocks of CNNs
-A deep convolutional network is one that takes an image as an input, passes it through a series of convolutional layers with filters, pooling layers, and fully connected layers, to finally apply a softmax activation function that classifies the image into a class label. The classification, as with ANNs, is performed by calculating the probability of the image belonging to each of the class labels, giving each class label a value between zero and one. The class label with the higher probability is the one
-selected as the final prediction for that image.
-### Convolutional layers 
-This is the first step to extract features from an image. The objective is to maintain the
-relation between nearby pixels by learning the features over small sections of the image A mathematical operation occurs in this layer, where two inputs are given (the image
-and the filter) and an output is obtained. As explained before, the operation consists
-of convolving the filter and a section of the image of the same size of the filter. This
-operation is repeated for all subsections of the image.
-### Padding
-The padding feature, as the name indicates, pads the image with zeros. This means that
-it adds additional pixels to each side of the image, which are filled with zeros.
-### Strdie
-This parameter refers to the number of pixels that the filter will shift over the input
-matrix, both horizontally and vertically. As we have seen so far, the filter is passed
-through the top-left corner of the image, then it shifts over to the right by one pixel,
-and so on until it has gone through all sections of the image vertically and horizontally.
-This example is one of a convolutional layer, with stride equal to one, which is the
-default configuration for this parameter.
+### What's cnn? - CCNs are probably the most popular of all neural networ architecures.
 
-# Data Augmentation 
-In simple words, it is a measure to
-increase the number of training examples by slightly modifying the existing examples.
-For example, you could duplicate the instances currently available and add some noise
-to those duplicates to make sure they are not exactly the same.
-In computer vision problems, this means incrementing the number of images in the
-training dataset by altering the existing images, which can be done by slightly altering
-the current images to create duplicated versions that are slightly different
-These minor adjustments to the images can be in the form of slight rotations, changes
-in the position of the object in the frame, horizontal or vertical flips, different color
-schemes, and distortions, among others. This technique works considering that CNNs
-will consider each of these images a different image.
+-   This is mainly because, although they work in many domains, they are particularly good at dealing with images, and advances in technology have allowed the collection of large amounts of images to be possible in order to tackle a great variety of today's challenges.
+
+-   From image classification to object detection, CNNs are being used to diagnose cancer patients and detect fraud in systems, as well as to construct well thought-out self- driving vehicles that will revolutionize the future.
+
+- Building Blocks of CNNs A deep convolutional network is one that takes an image as an input, passes it through a series of convolutional layers with filters, pooling layers, and fully connected layers, to finally apply a softmax activation function that classifies the image into a class label. The classification, as with ANNs, is performed by calculating the probability of the image belonging to each of the class labels, giving each class label a value between zero and one. The class label with the higher probability is the one selected as the final prediction for that image. 
+
+-  Convolutional layers This is the first step to extract features from an image. The objective is to maintain the relation between nearby pixels by learning the features over small sections of the image A mathematical operation occurs in this layer, where two inputs are given (the image and the filter) and an output is obtained. As explained before, the operation consists of convolving the filter and a section of the image of the same size of the filter. This operation is repeated for all subsections of the image.  Padding The padding feature, as the name indicates, pads the image with zeros. This means that it adds additional pixels to each side of the image, which are filled with zeros.  Strdie This parameter refers to the number of pixels that the filter will shift over the input matrix, both horizontally and vertically. As we have seen so far, the filter is passed through the top-left corner of the image, then it shifts over to the right by one pixel, and so on until it has gone through all sections of the image vertically and horizontally. This example is one of a convolutional layer, with stride equal to one, which is the default configuration for this parameter.
+
+# Data Augmentation
+
+In simple words, it is a measure to increase the number of training examples by slightly modifying the existing examples. For example, you could duplicate the instances currently available and add some noise to those duplicates to make sure they are not exactly the same. In computer vision problems, this means incrementing the number of images in the training dataset by altering the existing images, which can be done by slightly altering the current images to create duplicated versions that are slightly different These minor adjustments to the images can be in the form of slight rotations, changes in the position of the object in the frame, horizontal or vertical flips, different color schemes, and distortions, among others. This technique works considering that CNNs will consider each of these images a different image.
 
 ```{python}
 #| pycharm: {name: "#%%\n"}
@@ -76,7 +58,7 @@ transform = {
         transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])}
 ```
 
-### Convert the pixels into tensor datatype and normalizing the data 
+### Convert the pixels into tensor datatype and normalizing the data
 
 ```{python}
 #| pycharm: {name: "#%%\n"}
@@ -86,22 +68,14 @@ train_data = datasets.CIFAR10('data3', train=True, download=True, transform=tran
 test_data = datasets.CIFAR10('data3', train=False, download=True, transform=transform["test"])
 ```
 
-batch_size = 100 
-## downloading the data set from datasets module 
-train_data = datasets.CIFAR10('data', train=True, download=True, transform=transform)
-test_data = datasets.CIFAR10('data', train=False, download=True, transform=transform)
+batch_size = 100  downloading the data set from datasets module train_data = datasets.CIFAR10('data', train=True, download=True, transform=transform) test_data = datasets.CIFAR10('data', train=False, download=True, transform=transform)
 
+dev_size = 0.2 Using a validation size of 20%, define the training and validation sampler that will be used to divide the dataset into those two sets. idx = list(range(len(train_data))) np.random.shuffle(idx) split_size = int(np.floor(dev_size \* len(train_data))) train_idx, dev_idx = idx\[split_size:\], idx\[:split_size\]
 
-dev_size = 0.2 #Using a validation size of 20%, define the training and validation sampler that will be used to divide the dataset into those two sets.
-idx = list(range(len(train_data)))
-np.random.shuffle(idx)
-split_size = int(np.floor(dev_size * len(train_data)))
-train_idx, dev_idx = idx[split_size:], idx[:split_size]
+- train_sampler = SubsetRandomSampler(train_idx) 
+- dev_sampler = SubsetRandomSampler(dev_idx)
 
-train_sampler = SubsetRandomSampler(train_idx)
-dev_sampler = SubsetRandomSampler(dev_idx)
-
-- The SubsetRandomSampler() function from pytorch is used to divide the original training set into training and validations by randomly sampling indexes. 
+-   The SubsetRandomSampler() function from pytorch is used to divide the original training set into training and validations by randomly sampling indexes.
 
 ```{python}
 #| pycharm: {name: "#%%\n"}
@@ -115,7 +89,7 @@ train_sampler = SubsetRandomSampler(train_idx)
 dev_sampler = SubsetRandomSampler(dev_idx)
 ```
 
-- The DataLoader() functions are the ones in charge of loading the images by batches.The resulting variables(train_loader,dev_loader,and test_loader) of this function will contain the values for the features and the target separately. 
+-   The DataLoader() functions are the ones in charge of loading the images by batches.The resulting variables(train_loader,dev_loader,and test_loader) of this function will contain the values for the features and the target separately.
 
 ```{python}
 #| pycharm: {name: "#%%\n"}
@@ -125,14 +99,12 @@ test_loader = torch.utils.data.DataLoader(test_data, batch_size=batch_size)
 ```
 
 ### Define the architecture of your network. Use the following information to do so:
-• Conv1: A convolutional layer that takes as input the colored image and passes it
-through 10 filters of size 3. Both the padding and the stride should be set to 1.
 
-• Conv2: A convolutional layer that passes the input data through 20 filters of size 3.
-Both the padding and the stride should be set to 1.
+• Conv1: A convolutional layer that takes as input the colored image and passes it through 10 filters of size 3. Both the padding and the stride should be set to 1.
 
-• Conv3: A convolutional layer that passes the input data through 40 filters of size
-three. Both the padding and the stride should be set to 1.
+• Conv2: A convolutional layer that passes the input data through 20 filters of size 3. Both the padding and the stride should be set to 1.
+
+• Conv3: A convolutional layer that passes the input data through 40 filters of size three. Both the padding and the stride should be set to 1.
 
 • Use the ReLU activation function after each convolutional layer.
 
@@ -140,12 +112,9 @@ three. Both the padding and the stride should be set to 1.
 
 • A dropout term set to 20% after flattening the image.
 
-• Linear1: A fully-connected layer that receives as input the flattened matrix from
-the previous layer and generates an output of 100 units. Use the ReLU activation
-function for this layer. A dropout term here is set to 20%.
+• Linear1: A fully-connected layer that receives as input the flattened matrix from the previous layer and generates an output of 100 units. Use the ReLU activation function for this layer. A dropout term here is set to 20%.
 
-• Linear2: A fully-connected layer that generates 10 outputs, one for each class label.
-Use the log_softmax activation function for the output layer.
+• Linear2: A fully-connected layer that generates 10 outputs, one for each class label. Use the log_softmax activation function for the output layer.
 
 ```{python}
 #| pycharm: {name: "#%%\n"}
@@ -187,7 +156,7 @@ optimizer = optim.Adam(model.parameters(), lr=0.001)
 epochs = 100
 ```
 
-- Train your network and be sure to save the values for the loss and accuracy of both the training and validation sets. 
+-   Train your network and be sure to save the values for the loss and accuracy of both the training and validation sets.
 
 ```{python}
 #| pycharm: {name: "#%%\n"}
@@ -247,7 +216,7 @@ for e in range(1, epochs+1):
               "Validation Accuracy: {:.3f}".format(dev_accs/iter_2))
 ```
 
-- Plot the loss and accuracy of both sets
+-   Plot the loss and accuracy of both sets
 
 ```{python}
 #| pycharm: {name: "#%%\n"}
@@ -278,5 +247,3 @@ for data_test, target_test in test_loader:
     acc_test += accuracy_score(target_test, top_class_test)
 print(acc_test/iter_3)
 ```
-
-
