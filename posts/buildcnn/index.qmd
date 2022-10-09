@@ -1,5 +1,5 @@
 ---
-title: "Post With Code"
+title: "Building an CNN with Pytorch "
 author: "Abdlkareem Elkahtib"
 date: "2022-10-08"
 categories: [cnn, deep_learning, computer_vision,pytorch]
