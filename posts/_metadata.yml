@@ -6,9 +6,22 @@ freeze: true
 
 # Enable banner style title blocks
 title-block-banner: true
-
+#Enable cc licence appendix-style: 
+license: "CC BY"
+#Default for table contents 
+toc: true
+toc-title: Tabel of contents
+toc-location: left
+#Default knitr options 
+execute: 
+  echo: true
+  message: true
+  warning: true
+# Default author: 
+author: 
+  - name: 'Abdelkareem Elkhatib'
 # Author name of all blog posts
-author: 'Abdelkareem Elkhatib'
+
 # Table of content settings
 #toc: true
 #toc-depth: 3

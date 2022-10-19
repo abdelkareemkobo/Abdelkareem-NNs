@@ -1,0 +1,336 @@
+---
+#jupyter: python3
+# options specified here will apply to all posts in this folder
+
+# freeze computational output
+# (see https://quarto.org/docs/projects/code-execution.html#freeze)
+freeze: true
+
+# Enable banner style title blocks
+title-block-banner: true
+title: Style_transfer_with_pytorch
+# Author name of all blog posts
+author: 'Abdelkareem Elkhatib'
+# Table of content settings
+toc: true
+toc-depth: 3
+#page-layout: article
+number-sections: false 
+#ipynb-output: true
+#markdown-headings: true
+execute:
+  enabled: false
+  code-fold: true
+comments: 
+  utterances: 
+    repo:  abdelkareemkobo/comments
+format: html
+---
+
+# Style Transfer
+
+in simple words, style transfer consists of modifying the style of an image,whilte still preserving its content. for instance taking an image of an animal and transforming the style into a van Goh like painting.
+
+## How does it work?
+
+1.  feeding the inputs: Both the content and the style image are fed to the model,and they need to be the same. A common practice here is to resize the style image to be the same shape of the content image
+
+2.  Loading the model: try model like VGG network,which performs outstandingly well over style transfer problems.
+
+3.  Determining the layers'functions: Given that there are two main tasks at hand (recognizing the content of an image and distinguishing the style of another one ),different layers will have different functions to extract the different features.for the style image ,the focus should be on colors and textures,while for the content image,the focus should be on edges and forms. in this step ,the different layers are separated into different tasks.
+
+4.  Defining the optimization problem: Unlike other supervised problems. it is required to minimize three different loss functions for style transfer problems:
+
+-   Content loss: this measures the distance between the content image and the output,only considering features related to content
+
+-   Style loss: this measures the distance between the style image and the output only considering features related to style
+
+-   Total loss: This combines both the content and style loss. Both the content and style loss have a weight associated to them, which is used to determine their participation in the calculation of the total loss.
+
+5.  Parameter update: This step uses gradients to update the different parameters of the network
+
+```{python}
+import numpy as np ## this will be used to transform images to be displayed
+import torch 
+from torch import nn, optim #These will implement the neural network as we as define the optimization algorithm 
+from PIL import Image # This will load images 
+import matplotlib.pyplot as plt # this will display images 
+from torchvision import transforms, models # These will convert the images into tensors and load the pretrained model 
+device = 'cuda'
+```
+
+```{python}
+imsize = 224 # set the image size  for both images 
+# set the transformations to be performed over images --> resize--> converting to tensors --> normalizing 
+loader = transforms.Compose([
+    transforms.Resize(imsize), 
+    transforms.ToTensor(),
+    transforms.Normalize((0.485, 0.456, 0.406), (0.229, 0.224, 0.225))])
+```
+
+Note:The VGG network was trained using normalized images, where each channel has a mean of 0.485, 0.456, and 0.406, respectively, and a standard deviation of 0.229, 0.224, and 0.225.
+
+```{python}
+def image_loader(image_name):
+    """
+    Function to receive the image path as input and use PIL to 
+    open the image and apply transformations over the image 
+    """
+    image = Image.open(image_name)
+    image = loader(image).unsqueeze(0)
+    return image
+```
+
+```{python}
+content_img = image_loader("images/landscape.jpg").to(device)
+style_img = image_loader("images/monet.jpg").to(device)
+```
+
+-   To display the images,convert them back to PIL images and revert the normalization process, Define these transformation in a variable
+
+-   Note: To revert the normalization, it is necessary to use as mean the negative value of the mean used for normalizing the data, divided by the standard deviation previously used for normalizing the data. Moreover, the new standard deviation should be equal to one divided by the standard deviation used to normalize the data before.
+
+```{python}
+unloader = transforms.Compose([
+    transforms.Normalize((-0.485/0.229, -0.456/0.224, -0.406/0.225), (1/0.229, 1/0.224, 1/0.225)),
+    transforms.ToPILImage()])
+```
+
+```{python}
+def tensor2image(tensor):
+    image = tensor.to('cpu').clone() 
+    image = image.squeeze(0)  
+    image = unloader(image)
+    return image
+```
+
+```{python}
+plt.figure()
+plt.imshow(tensor2image(content_img))
+plt.title("Content Image")
+plt.show()
+
+plt.figure()
+plt.imshow(tensor2image(style_img))
+plt.title("Style Image")
+plt.show()
+```
+
+# Loading the model (The VGG19 )
+
+The saved model in Pytorch is split into two portions:
+
+1.  vgg19.features: this consists of all the convolutional and pooling layers of the network along with the parameters.These layers are in charge of extracting the features from images,where some of the layers specialize in style features,such as colors, while other specialize in content features,such as edges.
+
+2.  vgg19.classifier: This refers to the linear layers(also now as fully connected layers) thar are located at the end of the network,including their parameters. These layers are the ones that perform the classificatoin of the image into one of the label classes \*\*\*\*
+
+-   According to the preceding information, only the features portion of the model should be loaded in order to extract the necessary features of both the content and style images.
+
+-   Moreover, the parameters in each layer should be kept unchanged,considering that those are the ones that will help detect the desired features. This can be achieved by defining that the model doesn't need to calculate gradients for any of these layers.
+
+```{python}
+model = models.vgg19(pretrained=True).features
+
+for param in model.parameters():
+    param.requires_grad_(False)
+model.to(device)    
+```
+
+## Extracting the features
+
+-   In the field of style transfer, there have been different papers that have identified those layers that are crucial at recognizing relevant features over the content and style images.
+
+-   According to this, it is conventionally accepted that the first convolutional layer of every stack is capable of extracting style features, while only the second convolutional layer of the fourth stack should be used to extract content features.
+
+-   From now on, we will refer to the layers that extract the style features as conv1_1, conv2_1,conv3_1, conv4_1, and conv5_1, while the layer in charge of extracting the content features will be known as conv4_2.
+
+-   this means that the sytle image should be passed through five different layers. while the content image only needs to go through one layer.
+
+-   the output from each of these layers is used to compare the output image to the input images,where the objective would be to modify the parameters of the target image to resemble the content of the content image and the style of the style image,which can be achieved through the optimization of three different loss functions.
+
+-   to check the style representation of the target image and the style image, it is necessary to check for correlations and not the strict presence of the features on both images. this is because the style features of both images will not be exact,but rather an approximation.
+
+## The gram matrix
+
+\[\[https://www.youtube.com/watch?v=Elxnzxk-AUk\]\]
+
+# Setting up the Feature Extraction process
+
+-   create a dictionary mapping the index of the relevant layers(keys) to a name(values).This will facilitate the process of calling relevant layers in the future:
+
+```{python}
+relevant_layers = {'0': 'conv1_1', '5': 'conv2_1', '10': 'conv3_1', '19': 'conv4_1', '21': 'conv4_2', '28': 'conv5_1'}
+```
+
+-   create a function that will extract the relevant features(features extracted from the relevant layers only) from an input image.
+-   Name if feature_extractor and make sure it takes as input the image,the model,the model ,and the dictionary previously created
+
+```{python}
+def features_extractor(x, model, layers):
+        
+    features = {}
+    for index, layer in model._modules.items():
+        if index in layers:
+            x = layer(x)
+            features[layers[index]] = x
+            
+    return features
+```
+
+-   model.\_modules contains a dictionary holding each layer of the network. By
+
+-   performing a for loop through the different layers, we pass the image through the layers of interest (the ones inside the layers dictionary previously created) and save the output into the features dictionary.
+
+-   The output dictionary consists of keys containing the name of the layer and values containing the output features from that layer.
+
+-   call the features_extractor function over the content and style images
+
+```{python}
+content_features = features_extractor(content_img, model, relevant_layers)
+style_features = features_extractor(style_img, model, relevant_layers)
+```
+
+-   Perfrom the gram matrix calculation over style features. Consider that the style features were obtained from different layers, which is why different gram matrices should be created,on of each layer's output
+
+```{python}
+style_grams = {}
+for i in style_features:
+    layer = style_features[i]
+    _, d1, d2, d3 = layer.shape
+    features = layer.view(d1, d2 * d3)
+    gram = torch.mm(features, features.t())
+    style_grams[i] = gram
+```
+
+-   create an initial target image.this image will be later compared against the content and style images and be changed until the desired similarity is achieved:
+
+```{python}
+target_img = content_img.clone().requires_grad_(True)
+```
+
+```{python}
+plt.figure()
+plt.imshow(tensor2image(target_img))
+plt.title("Target Image")
+plt.show()
+```
+
+# Optimization Algorithm,Losses,and Parameters Updates
+
+-   Although style transfer is performed using a pretrained network where the parameters are left unchanged,creating the target image consists of an iterative process where three different loss functions are calculated and minimized by updating only the parameters related to the target image.
+
+-   However considering that measuring accuracy in terms of content and style is achieved vefy differently,the following is an explanation of the calculation of both the content and style loss functions,as well as a description on how the total loss is calculated
+
+#### content loss
+
+-   This consists of a function that, based on the feature map obtained by a given layer,calculates the distance between the content image and the target image. In the case ofthe VGG-19 network, the content loss is only calculated based on the output from theconv4_2 layer.
+
+-   The main idea behind the content loss function is to minimize the distance between the content image and the target image so that the latter highly resembles the former one in terms of content.
+
+-   The content loss can be calculated as the mean squared difference between the feature maps of the content and target images at the relevant layer (conv4_2), which can be achieved using the following equation:
+
+``` python
+content loss = torch.mean((target features - content features)**2)
+```
+
+#### Style loss
+
+-   Similar to the content loss, the style loss is a function that measures the distance between the style and the target image in terms of style features (for instance, color and texture) by calculating the mean squared difference. Contrary to the content loss, instead of comparing the feature maps derived from the different layers, it compares the gram matrices calculated based on the feature maps of both the style and the target image.
+
+-   It is important to mention that the style loss has to be calculated for all relevant layers (in this case, five layers) using a for loop. This will result in a loss function that considers simple and complex style representations from both images. Furthermore, it is a good practice to weigh the style representation of each of these layers between zero to one in order to give more emphasis to the layers that extract larger and simpler features over layers that extract very complex features. This is achieved by giving higher weights to earlier layers (conv1_1 and conv2_1) that extract more generic features from the style image Considering this, the calculation of the style loss can be performed using the following equation for each of the relevant layers:
+
+``` python
+style loss = style layer weight * torch.mean((target gram - style gram )**2)
+```
+
+#### Total loss
+
+-   finally,the total loss function consists of a combination Finally, the total loss function consists of a combination of both the content loss and the style loss.
+
+-   Its value is minimized during the iterative process of creating the target image by updating parameters of the target image. Again, it is recommended to assign weights to the content and the style losses in order to determine their participation in the final output.
+
+-   This helps determine the degree at which the target image will be stylized, while making the content still visible. Considering this, it is a good practice to set the weight of the content loss as equal to one, whereas the one for the style loss must be much higher to achieve the ratio of your preference.
+
+-   The weight assigned to the content loss is conventionally known as alpha, while the one given to the style loss is known as beta. The final equation to calculate the total loss can be seen as follows:
+
+``` python
+total loss = content loss*alpha  + style loss * beta 
+```
+
+-   Once the weights of the losses are defined, it is time to set the number of iteration steps, as well as the optimization algorithm which should only affect the target image.
+
+-   This means that, in every iteration step, all three losses will be calculated to then use the gradients to optimize the parameters associated to the target image, until the loss functions are minimized and a target function with the desired look is achieved.
+
+-   Like the optimization of previous neural networks, the following are the steps followed in each iteration:
+
+1.  Get the features, both in terms of content and style, from the target image. In the initial iteration, this image will be an exact copy of the content image.
+
+2.  Calculate the content loss. This is done comparing the content features map of the content and the target images.
+
+3.  Calculate the average style loss of all relevant layers. This is achieved by comparing the gram matrices for all layers of both the style and target image.
+
+4.  Calculate the total loss.
+
+5.  Calculate the partial derivatives of the total loss function in respect to the parameters (weights and biases) of the target image.
+
+6.  Repeat until the desired number of iterations has been reached. The final output will be an image with content similar to the content image and a style similar to the style image
+
+```{python}
+style_weights = {'conv1_1': 1., 'conv2_1': 0.8, 'conv3_1': 0.6, 'conv4_1': 0.4, 'conv5_1': 0.2}
+```
+
+```{python}
+# define the weights associated with the content and style losses.
+alpha = 1
+beta = 1e6
+```
+
+#### Define the number of iteration steps,as well as the optimization. We can alsot set the number of iterations after we want to see a plot of the image that has been created to that point. Note:to reach an outstanding result in style transfer even more iterations are typically required(around 6,000 perhaps)
+
+```{python}
+print_statement = 5000
+optimizer = torch.optim.Adam([target_img], lr=0.001)
+iterations = 30000
+```
+
+```{python}
+for i in range(1, iterations+1):
+    
+    target_features = features_extractor(target_img, model, relevant_layers)
+    content_loss = torch.mean((target_features['conv4_2'] - content_features['conv4_2'])**2)
+    
+    style_losses = 0
+    for layer in style_weights:
+        
+        target_feature = target_features[layer]
+        _, d1, d2, d3 = target_feature.shape
+        
+        target_reshaped = target_feature.view(d1, d2 * d3)
+        target_gram = torch.mm(target_reshaped, target_reshaped.t())
+        style_gram = style_grams[layer]
+                
+        style_loss = style_weights[layer] * torch.mean((target_gram - style_gram)**2)
+        style_losses += style_loss / (d1 * d2 * d3)
+        
+    total_loss = alpha * content_loss + beta * style_loss
+    
+    optimizer.zero_grad()
+    total_loss.backward()
+    optimizer.step()
+    
+    if  i % print_statement == 0 or i == 1:
+        print('Total loss: ', total_loss.item())
+        plt.imshow(tensor2image(target_img))
+        plt.show()
+```
+
+#plot both the content and the target image to compare the results
+
+```{python}
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 5))
+ax1.imshow(tensor2image(content_img))
+ax2.imshow(tensor2image(target_img))
+plt.show()
+```
+
+Note The paper used as guide for this part can be accessed in the following URL: https://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/Gatys\_ Image_Style_Transfer_CVPR_2016_paper.pdf.

@@ -24,9 +24,9 @@ I will build an cnn and apply data augmentation and batch normalization
 
 -   From image classification to object detection, CNNs are being used to diagnose cancer patients and detect fraud in systems, as well as to construct well thought-out self- driving vehicles that will revolutionize the future.
 
-- Building Blocks of CNNs A deep convolutional network is one that takes an image as an input, passes it through a series of convolutional layers with filters, pooling layers, and fully connected layers, to finally apply a softmax activation function that classifies the image into a class label. The classification, as with ANNs, is performed by calculating the probability of the image belonging to each of the class labels, giving each class label a value between zero and one. The class label with the higher probability is the one selected as the final prediction for that image. 
+-   Building Blocks of CNNs A deep convolutional network is one that takes an image as an input, passes it through a series of convolutional layers with filters, pooling layers, and fully connected layers, to finally apply a softmax activation function that classifies the image into a class label. The classification, as with ANNs, is performed by calculating the probability of the image belonging to each of the class labels, giving each class label a value between zero and one. The class label with the higher probability is the one selected as the final prediction for that image.
 
--  Convolutional layers This is the first step to extract features from an image. The objective is to maintain the relation between nearby pixels by learning the features over small sections of the image A mathematical operation occurs in this layer, where two inputs are given (the image and the filter) and an output is obtained. As explained before, the operation consists of convolving the filter and a section of the image of the same size of the filter. This operation is repeated for all subsections of the image.  Padding The padding feature, as the name indicates, pads the image with zeros. This means that it adds additional pixels to each side of the image, which are filled with zeros.  Strdie This parameter refers to the number of pixels that the filter will shift over the input matrix, both horizontally and vertically. As we have seen so far, the filter is passed through the top-left corner of the image, then it shifts over to the right by one pixel, and so on until it has gone through all sections of the image vertically and horizontally. This example is one of a convolutional layer, with stride equal to one, which is the default configuration for this parameter.
+-   Convolutional layers This is the first step to extract features from an image. The objective is to maintain the relation between nearby pixels by learning the features over small sections of the image A mathematical operation occurs in this layer, where two inputs are given (the image and the filter) and an output is obtained. As explained before, the operation consists of convolving the filter and a section of the image of the same size of the filter. This operation is repeated for all subsections of the image. Padding The padding feature, as the name indicates, pads the image with zeros. This means that it adds additional pixels to each side of the image, which are filled with zeros. Strdie This parameter refers to the number of pixels that the filter will shift over the input matrix, both horizontally and vertically. As we have seen so far, the filter is passed through the top-left corner of the image, then it shifts over to the right by one pixel, and so on until it has gone through all sections of the image vertically and horizontally. This example is one of a convolutional layer, with stride equal to one, which is the default configuration for this parameter.
 
 # Data Augmentation
 
@@ -68,12 +68,13 @@ train_data = datasets.CIFAR10('data3', train=True, download=True, transform=tran
 test_data = datasets.CIFAR10('data3', train=False, download=True, transform=transform["test"])
 ```
 
-batch_size = 100  downloading the data set from datasets module train_data = datasets.CIFAR10('data', train=True, download=True, transform=transform) test_data = datasets.CIFAR10('data', train=False, download=True, transform=transform)
+batch_size = 100 downloading the data set from datasets module train_data = datasets.CIFAR10('data', train=True, download=True, transform=transform) test_data = datasets.CIFAR10('data', train=False, download=True, transform=transform)
 
 dev_size = 0.2 Using a validation size of 20%, define the training and validation sampler that will be used to divide the dataset into those two sets. idx = list(range(len(train_data))) np.random.shuffle(idx) split_size = int(np.floor(dev_size \* len(train_data))) train_idx, dev_idx = idx\[split_size:\], idx\[:split_size\]
 
-- train_sampler = SubsetRandomSampler(train_idx) 
-- dev_sampler = SubsetRandomSampler(dev_idx)
+-   train_sampler = SubsetRandomSampler(train_idx)
+
+-   dev_sampler = SubsetRandomSampler(dev_idx)
 
 -   The SubsetRandomSampler() function from pytorch is used to divide the original training set into training and validations by randomly sampling indexes.
 

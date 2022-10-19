@@ -2,6 +2,7 @@
   {
     "listing": "/blog.html",
     "items": [
+      "/posts/style_transfer_with_pytorch/index.html",
       "/posts/buildcnn/index.html"
     ]
   }

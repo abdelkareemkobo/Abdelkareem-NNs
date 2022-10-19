@@ -44,5 +44,16 @@
   },
   "posts/buildcnn/index.ipynb": {
     "index.html": "084c8815"
+  },
+  "posts/style_transfer_with_pytorch/style_transfer_with_pytorch.ipynb": {
+    "style_transfer_with_pytorch.html": "4a203465"
+  },
+  "posts/style_transfer_with_pytorch/style_transfer_with_pytorch.qmd": {
+    "style_transfer_with_pytorch.ipynb": "eef79389",
+    "style_transfer_with_pytorch.html": "d3e24db0"
+  },
+  "posts/style_transfer_with_pytorch/index.qmd": {
+    "index.ipynb": "b4e41c87",
+    "index.html": "07087da9"
   }
 }
